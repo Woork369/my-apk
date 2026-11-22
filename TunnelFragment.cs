@@ -3,6 +3,7 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.Fragment.App;
 using Google.Android.Material.Button;
+using Android.Net; // ИСПРАВЛЕНИЕ: Добавлен using для VpnService
 
 namespace NetPulseAndroid
 {
@@ -22,6 +23,7 @@ namespace NetPulseAndroid
                 var activity = Activity;
                 if (activity == null) return;
 
+                // Теперь VpnService доступен благодаря using Android.Net;
                 var intent = VpnService.Prepare(activity);
                 if (intent != null)
                 {
@@ -40,7 +42,7 @@ namespace NetPulseAndroid
         {
             var svcIntent = new Android.Content.Intent(Activity, typeof(MyVpnService));
             svcIntent.SetAction("CONNECT");
-            svcIntent.PutExtra("proxy_host", "127.0.0.1"); // замените на выбранный прокси
+            svcIntent.PutExtra("proxy_host", "127.0.0.1"); 
             svcIntent.PutExtra("proxy_port", 1080);
             svcIntent.PutExtra("proxy_protocol", "socks5");
             Activity.StartService(svcIntent);
@@ -49,8 +51,7 @@ namespace NetPulseAndroid
             _btnToggle.Text = "ОТКЛЮЧИТЬ";
         }
 
-        // ИСПРАВЛЕНИЕ: Добавлен знак ? для Intent data, чтобы соответствовать новому API
-        public override void OnActivityResult(int requestCode, int resultCode, Android.Content.Intent? data)
+        public override void OnActivityResult(int requestCode, int resultCode, Android.Content.Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
             if (requestCode == 0 && resultCode == (int)Android.App.Result.Ok)
