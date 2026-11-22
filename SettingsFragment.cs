@@ -44,13 +44,13 @@ namespace NetPulseAndroid
             string proto = _spinnerProtocol.SelectedItem.ToString();
 
             var list = await ProxyManager.FetchBestProxiesAsync(country, proto, 500);
-            // Сохраните list в общий репозиторий (например, синглтон) для ConnectFragment
             ProxyRepository.Instance.Proxies = list;
             Toast.MakeText(Activity, $"Загружено {list.Count} прокси", ToastLength.Short).Show();
         }
     }
 
-    public static class ProxyRepository
+    // ИСПРАВЛЕНИЕ: Убран модификатор static у класса
+    public class ProxyRepository
     {
         public static ProxyRepository Instance { get; } = new ProxyRepository();
         public List<ProxyItem> Proxies { get; set; } = new List<ProxyItem>();
