@@ -14,7 +14,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.0.x'
+        dotnet-version: '9.0.x'   # <-- Обновлено с 8.0.x на 9.0.x
 
     - name: Install Android workload
       run: dotnet workload install android
@@ -23,16 +23,15 @@ jobs:
       run: dotnet restore
 
     - name: Build
-      run: dotnet build -c Release -f net8.0-android
+      run: dotnet build -c Release -f net9.0-android   # <-- Обновлено
 
     - name: Sign APK (debug key, для теста)
       run: |
-        # В production замените на свой keystore
-        dotnet publish -c Release -f net8.0-android -p:AndroidKeyStore=false
-        # APK появится в bin/Release/net8.0-android/publish/
+        dotnet publish -c Release -f net9.0-android -p:AndroidKeyStore=false
+        # APK появится в bin/Release/net9.0-android/publish/
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: NetPulseAndroid-APK
-        path: bin/Release/net8.0-android/publish/*.apk
+        path: bin/Release/net9.0-android/publish/*.apk
