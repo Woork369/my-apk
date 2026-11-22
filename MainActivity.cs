@@ -5,7 +5,7 @@ using AndroidX.ViewPager2.Widget;
 using Google.Android.Material.Tabs;
 using AndroidX.Fragment.App;
 using AndroidX.ViewPager2.Adapter;
-using AndroidX.Lifecycle; // <-- Добавлено для Lifecycle
+using AndroidX.Lifecycle;
 
 namespace NetPulseAndroid
 {
@@ -24,8 +24,9 @@ namespace NetPulseAndroid
             _tabLayout = FindViewById<TabLayout>(Resource.Id.tabLayout);
 
             _viewPager.Adapter = new MainPagerAdapter(SupportFragmentManager, Lifecycle);
-            new TabLayoutMediator(_tabLayout, _viewPager, (tab, position) =>
-            {
+            
+            // ИСПРАВЛЕНИЕ: Явная реализация интерфейса ITabConfigurationStrategy
+            var strategy = new TabLayoutMediator.TabConfigurationStrategy((tab, position) => {
                 tab.SetText(position switch
                 {
                     0 => "Tunnel",
@@ -33,7 +34,8 @@ namespace NetPulseAndroid
                     2 => "Подключение",
                     _ => ""
                 });
-            }).Attach();
+            });
+            new TabLayoutMediator(_tabLayout, _viewPager, strategy).Attach();
         }
 
         private class MainPagerAdapter : FragmentStateAdapter
@@ -43,7 +45,6 @@ namespace NetPulseAndroid
 
             public override int ItemCount => 3;
 
-            // Явно указываем, что возвращаем AndroidX.Fragment.App.Fragment
             public override AndroidX.Fragment.App.Fragment CreateFragment(int position) => position switch
             {
                 0 => new TunnelFragment(),
