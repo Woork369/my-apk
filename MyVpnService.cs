@@ -9,7 +9,8 @@ using System.Threading;
 
 namespace NetPulseAndroid
 {
-    [Service(Permission = "android.permission.BIND_VPN_SERVICE", ForegroundServiceType = Android.Content.PM.ForegroundService.TypeDataSync)]
+    // ИСПРАВЛЕНИЕ: Добавлен Exported = false
+    [Service(Exported = false, Permission = "android.permission.BIND_VPN_SERVICE", ForegroundServiceType = Android.Content.PM.ForegroundService.TypeDataSync)]
     [IntentFilter(new[] { "android.net.VpnService" })]
     public class MyVpnService : VpnService
     {
@@ -73,7 +74,6 @@ namespace NetPulseAndroid
         {
             if (_isRunning) return;
 
-            // ИСПРАВЛЕНИЕ: Передаем 'this' в конструктор Builder
             var builder = new Builder(this) 
                 .SetSession("NetPulse")
                 .AddAddress("10.0.0.2", 32)
