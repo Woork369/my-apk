@@ -14,7 +14,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '10.0.x'   # <-- Обновлено до .NET 10
+        dotnet-version: '10.0.x'
 
     - name: Install Android workload
       run: dotnet workload install android
@@ -23,12 +23,12 @@ jobs:
       run: dotnet restore
 
     - name: Build
-      run: dotnet build -c Release -f net10.0-android   # <-- Обновлено
+      # Убран флаг -f, так как платформа будет взята из NetPulseAndroid.csproj
+      run: dotnet build -c Release
 
-    - name: Sign APK (debug key, для теста)
-      run: |
-        dotnet publish -c Release -f net10.0-android -p:AndroidKeyStore=false
-        # APK появится в bin/Release/net10.0-android/publish/
+    - name: Publish APK (Debug Key)
+      # Убран флаг -f по той же причине
+      run: dotnet publish -c Release -p:AndroidKeyStore=false
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
