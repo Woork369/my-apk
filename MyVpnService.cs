@@ -19,7 +19,8 @@ namespace NetPulseAndroid
         private Thread _tunnelThread;
         private volatile bool _isRunning;
 
-        public override int OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
+        // ИСПРАВЛЕНИЕ: Возвращаемый тип изменен с int на StartCommandResult
+        public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
             if (intent?.Action == "CONNECT")
             {
@@ -34,7 +35,8 @@ namespace NetPulseAndroid
             {
                 StopVpn();
             }
-            return StartCommandFlags.Sticky;
+            // ИСПРАВЛЕНИЕ: StartCommandResult вместо StartCommandFlags
+            return StartCommandResult.Sticky; 
         }
 
         private void StartForegroundWithNotification(string host, int port)
@@ -94,15 +96,8 @@ namespace NetPulseAndroid
 
         private void RunTunnel(string proxyHost, int proxyPort, string protocol)
         {
-            // Здесь используется teapod-tun2socks (AAR).
-            // Если библиотека не подключена, замените на свой tun2socks-движок.
             try
             {
-                // Пример вызова Java-API teapod-tun2socks:
-                // var manager = new Com.Teapodstream.Tun2socks.TeapodVpnManager();
-                // manager.Start(_vpnInterface.FileDescriptor, proxyHost, proxyPort, protocol);
-
-                // Заглушка для компиляции без AAR:
                 using (var input = new FileInputStream(_vpnInterface.FileDescriptor))
                 {
                     byte[] buffer = new byte[1500];
@@ -110,7 +105,7 @@ namespace NetPulseAndroid
                     {
                         int len = input.Read(buffer);
                         if (len <= 0) break;
-                        // Пакеты должны уходить в tun2socks-движок
+                        // Заглушка: здесь должен быть движок tun2socks
                     }
                 }
             }
