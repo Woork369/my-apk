@@ -19,7 +19,6 @@ namespace NetPulseAndroid
         private Thread _tunnelThread;
         private volatile bool _isRunning;
 
-        // ИСПРАВЛЕНИЕ: Возвращаемый тип изменен с int на StartCommandResult
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
             if (intent?.Action == "CONNECT")
@@ -35,7 +34,6 @@ namespace NetPulseAndroid
             {
                 StopVpn();
             }
-            // ИСПРАВЛЕНИЕ: StartCommandResult вместо StartCommandFlags
             return StartCommandResult.Sticky; 
         }
 
@@ -75,7 +73,8 @@ namespace NetPulseAndroid
         {
             if (_isRunning) return;
 
-            var builder = new Builder()
+            // ИСПРАВЛЕНИЕ: Передаем 'this' в конструктор Builder
+            var builder = new Builder(this) 
                 .SetSession("NetPulse")
                 .AddAddress("10.0.0.2", 32)
                 .AddRoute("0.0.0.0", 0)
@@ -105,7 +104,6 @@ namespace NetPulseAndroid
                     {
                         int len = input.Read(buffer);
                         if (len <= 0) break;
-                        // Заглушка: здесь должен быть движок tun2socks
                     }
                 }
             }
