@@ -1,0 +1,38 @@
+name: Build APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Install Android workload
+      run: dotnet workload install android
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build -c Release -f net8.0-android
+
+    - name: Sign APK (debug key, для теста)
+      run: |
+        # В production замените на свой keystore
+        dotnet publish -c Release -f net8.0-android -p:AndroidKeyStore=false
+        # APK появится в bin/Release/net8.0-android/publish/
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: NetPulseAndroid-APK
+        path: bin/Release/net8.0-android/publish/*.apk
