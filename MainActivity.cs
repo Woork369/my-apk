@@ -9,7 +9,8 @@ using AndroidX.Lifecycle;
 
 namespace NetPulseAndroid
 {
-    [Activity(Label = "@string/app_name", MainLauncher = true, Theme = "@style/Theme.Material3.Dark")]
+    // ИСПРАВЛЕНИЕ: Добавлен Exported = true
+    [Activity(Label = "@string/app_name", MainLauncher = true, Theme = "@style/Theme.Material3.Dark", Exported = true)]
     public class MainActivity : AppCompatActivity
     {
         private ViewPager2 _viewPager;
@@ -25,12 +26,10 @@ namespace NetPulseAndroid
 
             _viewPager.Adapter = new MainPagerAdapter(SupportFragmentManager, Lifecycle);
             
-            // ИСПРАВЛЕНИЕ: Используем наш собственный класс-стратегию
             var strategy = new TabConfigStrategy();
             new TabLayoutMediator(_tabLayout, _viewPager, strategy).Attach();
         }
 
-        // Вспомогательный класс для привязки названий к вкладкам
         private class TabConfigStrategy : Java.Lang.Object, TabLayoutMediator.ITabConfigurationStrategy
         {
             public void OnConfigureTab(TabLayout.Tab tab, int position)
