@@ -3,9 +3,9 @@ using Android.OS;
 using AndroidX.AppCompat.App;
 using AndroidX.ViewPager2.Widget;
 using Google.Android.Material.Tabs;
-using Google.Android.Material.BottomNavigation; // если нужно
 using AndroidX.Fragment.App;
 using AndroidX.ViewPager2.Adapter;
+using AndroidX.Lifecycle; // <-- Добавлено для Lifecycle
 
 namespace NetPulseAndroid
 {
@@ -38,11 +38,13 @@ namespace NetPulseAndroid
 
         private class MainPagerAdapter : FragmentStateAdapter
         {
-            public MainPagerAdapter(FragmentManager fm, Lifecycle lifecycle) : base(fm, lifecycle) { }
+            public MainPagerAdapter(AndroidX.Fragment.App.FragmentManager fm, AndroidX.Lifecycle.Lifecycle lifecycle) 
+                : base(fm, lifecycle) { }
 
             public override int ItemCount => 3;
 
-            public override Fragment CreateFragment(int position) => position switch
+            // Явно указываем, что возвращаем AndroidX.Fragment.App.Fragment
+            public override AndroidX.Fragment.App.Fragment CreateFragment(int position) => position switch
             {
                 0 => new TunnelFragment(),
                 1 => new SettingsFragment(),
