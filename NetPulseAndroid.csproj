@@ -1,6 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <!-- Используем базовую платформу net10.0-android -->
     <TargetFramework>net10.0-android</TargetFramework>
     <OutputType>Exe</OutputType>
     <RootNamespace>NetPulseAndroid</RootNamespace>
@@ -10,22 +9,19 @@
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
     <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
-    <!-- Отключаем проверку устаревших ворклоадов на всякий случай -->
     <CheckEolWorkloads>false</CheckEolWorkloads>
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Версии пакетов, совместимые с .NET 10 -->
+    <!-- Версии пакетов синхронизированы для устранения конфликта NU1605 -->
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.8.0" />
     <PackageReference Include="Xamarin.Google.Android.Material" Version="1.12.0.1" />
-    <PackageReference Include="Xamarin.AndroidX.ViewPager2" Version="1.1.0.2" />
+    <!-- Обновлено с 1.1.0.2 до 1.1.0.11 (требуется пакетом Material) -->
+    <PackageReference Include="Xamarin.AndroidX.ViewPager2" Version="1.1.0.11" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
-  <!-- 
-    ВНИМАНИЕ: Если у вас еще нет файла teapod-tun2socks.aar, 
-    закомментируйте или удалите этот блок, иначе сборка упадет с ошибкой "файл не найден".
-  -->
+  <!-- AAR-библиотека tun2socks (если файла нет, этот блок можно закомментировать) -->
   <!--
   <ItemGroup>
     <AndroidLibrary Include="Jars\teapod-tun2socks.aar" />
