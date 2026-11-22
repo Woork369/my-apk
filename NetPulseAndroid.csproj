@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0-android</TargetFramework>
+    <!-- Меняем net8.0-android на поддерживаемый net9.0-android -->
+    <TargetFramework>net9.0-android</TargetFramework>
     <OutputType>Exe</OutputType>
     <RootNamespace>NetPulseAndroid</RootNamespace>
     <UseMaui>false</UseMaui>
@@ -8,12 +9,15 @@
     <ApplicationVersion>1</ApplicationVersion>
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <!-- Минимальная версия ОС (можно оставить 21 для широкой совместимости) -->
     <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.6.1.3" />
-    <PackageReference Include="Xamarin.AndroidX.Material" Version="1.11.0.1" />
+    <!-- Обновлены версии пакетов до актуальных -->
+    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.8.0" />
+    <!-- Правильное имя пакета для Material Components -->
+    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.12.0.1" />
     <PackageReference Include="Xamarin.AndroidX.ViewPager2" Version="1.1.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
