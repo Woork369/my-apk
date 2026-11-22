@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <!-- Переходим на .NET 10 и явно указываем версию Android API -->
-    <TargetFramework>net10.0-android36.0</TargetFramework>
+    <!-- Используем базовую платформу net10.0-android -->
+    <TargetFramework>net10.0-android</TargetFramework>
     <OutputType>Exe</OutputType>
     <RootNamespace>NetPulseAndroid</RootNamespace>
     <UseMaui>false</UseMaui>
@@ -10,20 +10,27 @@
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
     <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
+    <!-- Отключаем проверку устаревших ворклоадов на всякий случай -->
+    <CheckEolWorkloads>false</CheckEolWorkloads>
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Обновлены версии пакетов для .NET 10 -->
+    <!-- Версии пакетов, совместимые с .NET 10 -->
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.8.0" />
-    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.14.0" />
-    <PackageReference Include="Xamarin.AndroidX.ViewPager2" Version="1.1.0.11" />
+    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.12.0.1" />
+    <PackageReference Include="Xamarin.AndroidX.ViewPager2" Version="1.1.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
-  <!-- AAR-библиотека tun2socks (соберите отдельно, см. README) -->
+  <!-- 
+    ВНИМАНИЕ: Если у вас еще нет файла teapod-tun2socks.aar, 
+    закомментируйте или удалите этот блок, иначе сборка упадет с ошибкой "файл не найден".
+  -->
+  <!--
   <ItemGroup>
     <AndroidLibrary Include="Jars\teapod-tun2socks.aar" />
   </ItemGroup>
+  -->
 
   <ItemGroup>
     <AndroidResource Include="Resources\**\*" />
