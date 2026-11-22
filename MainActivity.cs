@@ -25,8 +25,16 @@ namespace NetPulseAndroid
 
             _viewPager.Adapter = new MainPagerAdapter(SupportFragmentManager, Lifecycle);
             
-            // ИСПРАВЛЕНИЕ: Явная реализация интерфейса ITabConfigurationStrategy
-            var strategy = new TabLayoutMediator.TabConfigurationStrategy((tab, position) => {
+            // ИСПРАВЛЕНИЕ: Используем наш собственный класс-стратегию
+            var strategy = new TabConfigStrategy();
+            new TabLayoutMediator(_tabLayout, _viewPager, strategy).Attach();
+        }
+
+        // Вспомогательный класс для привязки названий к вкладкам
+        private class TabConfigStrategy : Java.Lang.Object, TabLayoutMediator.ITabConfigurationStrategy
+        {
+            public void OnConfigureTab(TabLayout.Tab tab, int position)
+            {
                 tab.SetText(position switch
                 {
                     0 => "Tunnel",
@@ -34,8 +42,7 @@ namespace NetPulseAndroid
                     2 => "Подключение",
                     _ => ""
                 });
-            });
-            new TabLayoutMediator(_tabLayout, _viewPager, strategy).Attach();
+            }
         }
 
         private class MainPagerAdapter : FragmentStateAdapter
