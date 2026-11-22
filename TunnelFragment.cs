@@ -22,7 +22,6 @@ namespace NetPulseAndroid
                 var activity = Activity;
                 if (activity == null) return;
 
-                // Проверяем разрешение VPN
                 var intent = VpnService.Prepare(activity);
                 if (intent != null)
                 {
@@ -50,7 +49,8 @@ namespace NetPulseAndroid
             _btnToggle.Text = "ОТКЛЮЧИТЬ";
         }
 
-        public override void OnActivityResult(int requestCode, int resultCode, Android.Content.Intent data)
+        // ИСПРАВЛЕНИЕ: Добавлен знак ? для Intent data, чтобы соответствовать новому API
+        public override void OnActivityResult(int requestCode, int resultCode, Android.Content.Intent? data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
             if (requestCode == 0 && resultCode == (int)Android.App.Result.Ok)
