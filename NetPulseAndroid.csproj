@@ -9,11 +9,15 @@
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
     
+    <!-- Минимальная версия Android 6.0 (API 23) -->
     <SupportedOSPlatformVersion>23</SupportedOSPlatformVersion>
     
-    <!-- ИСПРАВЛЕНИЕ: Указываем все основные архитектуры Android -->
-    <!-- android-arm = armeabi-v7a (32-bit), android-arm64 = arm64-v8a (64-bit) -->
-    <RuntimeIdentifiers>android-arm;android-arm64</RuntimeIdentifiers>
+    <!-- Поддержка всех архитектур процессоров -->
+    <RuntimeIdentifiers>android-arm;android-arm64;android-x86;android-x64</RuntimeIdentifiers>
+    
+    <!-- ОТКЛЮЧАЕМ FAST DEPLOYMENT (лечит вылеты) -->
+    <AndroidUseFastDeployment>false</AndroidUseFastDeployment>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     
     <CheckEolWorkloads>false</CheckEolWorkloads>
   </PropertyGroup>
