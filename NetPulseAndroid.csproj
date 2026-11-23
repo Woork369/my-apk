@@ -9,7 +9,8 @@
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
     
-    <!-- Минимальная версия Android 6.0 (API 23) -->
+    <!-- Явно указываем целевую версию Android (API 34) -->
+    <TargetSdkVersion>34</TargetSdkVersion>
     <SupportedOSPlatformVersion>23</SupportedOSPlatformVersion>
     
     <!-- Поддержка всех архитектур процессоров -->
