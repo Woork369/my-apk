@@ -9,7 +9,6 @@ using System.Threading;
 
 namespace NetPulseAndroid
 {
-    // ИСПРАВЛЕНИЕ: Добавлен Exported = false
     [Service(Exported = false, Permission = "android.permission.BIND_VPN_SERVICE", ForegroundServiceType = Android.Content.PM.ForegroundService.TypeDataSync)]
     [IntentFilter(new[] { "android.net.VpnService" })]
     public class MyVpnService : VpnService
@@ -26,10 +25,8 @@ namespace NetPulseAndroid
             {
                 string host = intent.GetStringExtra("proxy_host");
                 int port = intent.GetIntExtra("proxy_port", 1080);
-                string protocol = intent.GetStringExtra("proxy_protocol") ?? "socks5";
-
                 StartForegroundWithNotification(host, port);
-                StartVpn(host, port, protocol);
+                StartVpn(host, port, "socks5");
             }
             else if (intent?.Action == "DISCONNECT")
             {
@@ -41,11 +38,9 @@ namespace NetPulseAndroid
         private void StartForegroundWithNotification(string host, int port)
         {
             CreateNotificationChannel();
-
             var stopIntent = new Intent(this, typeof(MyVpnService));
             stopIntent.SetAction("DISCONNECT");
-            var stopPending = PendingIntent.GetService(this, 0, stopIntent,
-                PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
+            var stopPending = PendingIntent.GetService(this, 0, stopIntent, PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
 
             var notification = new NotificationCompat.Builder(this, ChannelId)
                 .SetContentTitle("NetPulse VPN активен")
@@ -63,8 +58,7 @@ namespace NetPulseAndroid
         {
             if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
             {
-                var channel = new NotificationChannel(ChannelId, "VPN Service",
-                    NotificationImportance.Low);
+                var channel = new NotificationChannel(ChannelId, "VPN Service", NotificationImportance.Low);
                 var manager = (NotificationManager)GetSystemService(NotificationService);
                 manager.CreateNotificationChannel(channel);
             }
@@ -73,7 +67,6 @@ namespace NetPulseAndroid
         private void StartVpn(string proxyHost, int proxyPort, string protocol)
         {
             if (_isRunning) return;
-
             var builder = new Builder(this) 
                 .SetSession("NetPulse")
                 .AddAddress("10.0.0.2", 32)
@@ -82,11 +75,7 @@ namespace NetPulseAndroid
                 .SetMtu(1500);
 
             _vpnInterface = builder.Establish();
-            if (_vpnInterface == null)
-            {
-                StopSelf();
-                return;
-            }
+            if (_vpnInterface == null) { StopSelf(); return; }
 
             _isRunning = true;
             _tunnelThread = new Thread(() => RunTunnel(proxyHost, proxyPort, protocol));
@@ -107,14 +96,8 @@ namespace NetPulseAndroid
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                Android.Util.Log.Error("NetPulseVPN", ex.ToString());
-            }
-            finally
-            {
-                StopVpn();
-            }
+            catch (Exception ex) { Android.Util.Log.Error("NetPulseVPN", ex.ToString()); }
+            finally { StopVpn(); }
         }
 
         private void StopVpn()
