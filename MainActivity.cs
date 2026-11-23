@@ -9,8 +9,8 @@ using AndroidX.Lifecycle;
 
 namespace NetPulseAndroid
 {
-    // ИСПРАВЛЕНИЕ: Добавлен Exported = true
-    [Activity(Label = "@string/app_name", MainLauncher = true, Theme = "@style/Theme.Material3.Dark", Exported = true)]
+    // Тема заменена на @style/AppTheme
+    [Activity(Label = "@string/app_name", MainLauncher = true, Theme = "@style/AppTheme", Exported = true)]
     public class MainActivity : AppCompatActivity
     {
         private ViewPager2 _viewPager;
