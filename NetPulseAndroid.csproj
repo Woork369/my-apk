@@ -1,6 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <!-- Используем актуальную платформу -->
     <TargetFramework>net10.0-android</TargetFramework>
     <OutputType>Exe</OutputType>
     <RootNamespace>NetPulseAndroid</RootNamespace>
@@ -10,31 +9,21 @@
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
     
-    <!-- ИСПРАВЛЕНИЕ: Подняли минимальную версию с 21 до 23 (требование библиотеки AndroidX) -->
     <SupportedOSPlatformVersion>23</SupportedOSPlatformVersion>
     
-    <!-- Отключаем проверку End of Life для ворклоадов -->
+    <!-- ИСПРАВЛЕНИЕ: Указываем все основные архитектуры Android -->
+    <!-- android-arm = armeabi-v7a (32-bit), android-arm64 = arm64-v8a (64-bit) -->
+    <RuntimeIdentifiers>android-arm;android-arm64</RuntimeIdentifiers>
+    
     <CheckEolWorkloads>false</CheckEolWorkloads>
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Версии пакетов синхронизированы для предотвращения конфликтов (NU1605) -->
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.8.0" />
     <PackageReference Include="Xamarin.Google.Android.Material" Version="1.12.0.1" />
     <PackageReference Include="Xamarin.AndroidX.ViewPager2" Version="1.1.0.11" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
-
-  <!-- 
-    ВНИМАНИЕ: Блок с AAR-библиотекой tun2socks закомментирован, 
-    чтобы сборка не упала, если файла Jars\teapod-tun2socks.aar пока нет в репозитории.
-    Когда добавишь файл, можешь раскомментировать этот блок.
-  -->
-  <!--
-  <ItemGroup>
-    <AndroidLibrary Include="Jars\teapod-tun2socks.aar" />
-  </ItemGroup>
-  -->
 
   <ItemGroup>
     <AndroidResource Include="Resources\**\*" />
